@@ -29,7 +29,7 @@ spring:
     active: dev2
   data:
     mongodb:
-      uri: mongodb://root:Geit86970000@106.12.111.157:27017/IntelligentGuidance?authSource=admin&authMechanism=SCRAM-SHA-1
+      uri: mongodb://用户名：密码@106.12.111.157:27017/IntelligentGuidance?authSource=admin&authMechanism=SCRAM-SHA-1
       ConnectTimeout: 30000
       ConnectionLifetime: 300000
       MinimumPoolSize: 8
@@ -52,7 +52,7 @@ spring:
   profiles: dev
   datasource:
     username: root
-    password: 'Geit@86#97$0000'
+    password: 'Gei'
     url: jdbc:mysql://www.ggzzrj.xyz:6609/agg_pay?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=UTC&oldsyntax=true
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
@@ -63,7 +63,7 @@ spring:
   profiles: dev2
   datasource:
     username: root
-    password: 'Admin@86970000'
+    password: 'Admin'
     url: jdbc:mysql://106.12.24.238:6609/agg_pay?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=UTC&oldsyntax=true
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
