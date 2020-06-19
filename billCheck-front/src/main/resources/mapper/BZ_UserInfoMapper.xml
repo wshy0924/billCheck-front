@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	<resultMap id="BaseResultMap" type="map">
+		<!-- <id column="cfsb" jdbcType="VARCHAR"
+			property="cfsb" />-->
+		<!-- column对应数据库中字段名，property对应实体类中名,进行转化 -->
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+	</resultMap>
+
+	 <sql id="Base_Column_List">
+		his_paystatus, third_paystatus
+	</sql>
+    <!-- 数据库查询 -->
+    <select id="selectByUsername" parameterType="map" resultMap="BaseResultMap">
+	     SELECT username,password
+	 FROM bz_userinfo
+	    <where>
+	        username = #{username,jdbcType=VARCHAR}
+	        AND
+	        password = #{password,jdbcType=VARCHAR}
+	    </where>
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+     SELECT  username, password
+	 FROM bz_userinfo 
+    </select>
+	
+	<!-- 数据库插入，不存在时插入，存在时更新数据 只针对主键生效，本项目操作主键为id，不存在主键重复问题，当用户名相同时，使可以插入的 -->
+	<!-- id:表示此段sql执行语句的唯一标识，也是接口的方法名称 -->
+	<!-- parameterType:表示该sql语句中需要传入的参数， 类型要与对应的接口方法的类型一致 -->
+	<!-- resultMap:定义出参，调用已定义的<resultMap>映射管理器的id值 -->
+	<insert id="inserUser" parameterType="map">
+		insert into bz_userinfo
+		(username, password)
+		values
+		(
+			#{username,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR}
+		)
+<!-- 		ON DUPLICATE KEY UPDATE  -->
+<!-- 		username = #{username,jdbcType=VARCHAR}, -->
+<!-- 		password = #{password,jdbcType=VARCHAR} -->
+		
+	</insert>
+	
+	<update id="updateByUsername" parameterType="map">
+	    update bz_userinfo
+	    <set>
+		  <!--<if test="his_paystatus != 1">
+	        his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	      </if>-->   
+	    username =#{username,jdbcType=VARCHAR},
+		password=#{password,jdbcType=CHAR},
+	    </set>
+	    where username = #{username,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 数据库更新 -->
+	<update id="updateOrderByCfsb" parameterType="map">
+	    update bz_pay_order
+	    <set>
+		  <!--<if test="his_paystatus != 1">
+	        his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	      </if>-->
+	      	his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	        pay_type = #{zffs,jdbcType=CHAR},
+	        recipel_num = #{cfsb,jdbcType=VARCHAR},
+	        pay_orderid = #{pay_orderid,jdbcType=VARCHAR},
+	        refund_status = #{refund_status,jdbcType=VARCHAR},
+	    </set>
+	    where recipel_num = #{cfsb,jdbcType=VARCHAR}
+	</update>
+	<!-- 删除 -->
+	<delete id="deleteByusername" parameterType="map">
+		delete from
+		bz_userinfo
+		where username = #{username,jdbcType=VARCHAR}
+		and
+		password = #{password,jdbcType=VARCHAR}
+		
+<!-- 			where id = #{id,jdbcType=INTEGER} -->
+	</delete>
+</mapper>
