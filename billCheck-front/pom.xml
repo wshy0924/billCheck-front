@@ -140,7 +140,20 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
+
+
+        <!--引入spring-boot-starter-validation-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+
+
     </dependencies>
+
+
 
     <build>
         <plugins>
