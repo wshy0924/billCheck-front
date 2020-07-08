@@ -1,4 +1,4 @@
-package com.wshy.billcheck.Exception;
+package com.wshy.billcheckdbserver.exception;
 
 /**
  * @author wshy
@@ -38,7 +38,7 @@ public enum ResponseMsgEnum {
     /**
      * 数据库操作失败
      */
-    DATABASE_EXCEPTION("400", "数据库操作异常，请联系管理员！"),
+    DATABASE_EXCEPTION("700", "数据库操作异常，请联系管理员！"),
     /**
      * 500 : 一劳永逸的提示也可以在这定义
      */

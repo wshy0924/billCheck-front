@@ -1,7 +1,7 @@
-package com.wshy.billcheck.Exception;
+package com.wshy.billcheckdbserver.exception;
 
-import com.wshy.billcheck.Utils.ParamUtils;
-import com.wshy.billcheck.Utils.ResponseUtils;
+
+import com.wshy.billcheckdbserver.utils.ParamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="torderpay">
+    <resultMap id="BaseResultMap" type="map">
+        <result column="f_thirdptls" jdbcType="VARCHAR"
+                property="f_thirdptls" />
+        <result column="f_merchantid" jdbcType="VARCHAR"
+                property="f_merchantid" />
+        <result column="f_ordertrace" jdbcType="VARCHAR"
+                property="f_ordertrace" />
+        <result column="f_index" jdbcType="INTEGER" property="f_index" />
+        <result column="f_type" jdbcType="INTEGER" property="f_type" />
+        <result column="f_thirdid" jdbcType="CHAR" property="f_thirdid" />
+        <result column="f_3total_fee" jdbcType="INTEGER"
+                property="f_3total_fee" />
+        <result column="f_3cash_fee" jdbcType="INTEGER"
+                property="f_3cash_fee" />
+        <result column="f_3transaction_id" jdbcType="VARCHAR"
+                property="f_3transaction_id" />
+        <result column="f_3openid" jdbcType="VARCHAR"
+                property="f_3openid" />
+        <result column="f_3date_end" jdbcType="CHAR"
+                property="f_3date_end" />
+        <result column="f_3time_end" jdbcType="CHAR"
+                property="f_3time_end" />
+        <result column="f_date" jdbcType="CHAR" property="f_date" />
+        <result column="f_time" jdbcType="CHAR" property="f_time" />
+        <result column="f_status" jdbcType="CHAR" property="f_status" />
+        <result column="f_term_batchno" jdbcType="VARCHAR"
+                property="f_term_batchno" />
+        <result column="f_settleflag" jdbcType="CHAR"
+                property="f_settleflag" />
+        <result column="f_refund_reason" jdbcType="VARCHAR"
+                property="f_refund_reason" />
+        <result column="f_remark" jdbcType="VARCHAR"
+                property="f_remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		f_thirdptls,f_merchantid,f_ordertrace,
+		f_index,f_type,f_thirdid,f_3total_fee,f_3cash_fee,
+		f_3transaction_id,f_3openid,f_3date_end,f_3time_end,
+		f_date,f_time,f_status,f_term_batchno,f_refund_reason
+	</sql>
+
+    <insert id="insertOrderPay" parameterType="map">
+		insert into
+		t_order_pay
+		(f_thirdptls, f_merchantid, f_ordertrace,
+		f_index,f_type,f_thirdid,f_3total_fee,
+		f_3cash_fee,f_3transaction_id,f_3openid,f_3date_end,
+		f_3time_end,f_date,f_time,f_status,
+		f_term_batchno,f_settleflag,f_refund_reason,f_remark)
+		values
+		(#{fThirdptls,jdbcType=VARCHAR},#{fMerchantid,jdbcType=VARCHAR},
+		#{fOrdertrace,jdbcType=VARCHAR},
+		#{fIndex,jdbcType=INTEGER},
+		#{fType,jdbcType=INTEGER}, #{fThirdid,jdbcType=CHAR},
+		#{f3total_fee,jdbcType=INTEGER}, #{f3cash_fee,jdbcType=INTEGER},
+		#{f3transaction_id,jdbcType=VARCHAR},
+		#{f3openid,jdbcType=VARCHAR},
+		#{f3date_end,jdbcType=CHAR}, #{f3time_end,jdbcType=CHAR},
+		#{fDate,jdbcType=CHAR}, #{fTime,jdbcType=CHAR},
+		#{fStatus,jdbcType=CHAR},
+		#{fTerm_batchno,jdbcType=VARCHAR},
+		#{fSettleflag,jdbcType=CHAR}, #{fRefund_reason,jdbcType=VARCHAR}, #{fRemark,jdbcType=VARCHAR})
+	</insert>
+
+    <update id="updateOrderPayByOrderId" parameterType="map">
+        update t_order_pay
+        <set>
+            <if test="f3transaction_id != null">
+                f_3transaction_id = #{f3transaction_id,jdbcType=VARCHAR},
+            </if>
+            <if test="f3openid != null">
+                f_3openid = #{f3openid,jdbcType=VARCHAR},
+            </if>
+            <if test="f3date_end != null">
+                f_3date_end = #{f3date_end,jdbcType=CHAR},
+            </if>
+            <if test="f3time_end != null">
+                f_3time_end = #{f3time_end,jdbcType=CHAR},
+            </if>
+            <if test="fStatus != null">
+                f_status = #{fStatus,jdbcType=CHAR},
+            </if>
+        </set>
+        where f_thirdptls = #{fThirdptls,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateOrderRefundByOrderId" parameterType="map">
+        update t_order_pay
+        <set>
+            <if test="f3transaction_id != null">
+                f_3transaction_id = #{f3transaction_id,jdbcType=VARCHAR},
+            </if>
+            <if test="f3openid != null">
+                f_3openid = #{f3openid,jdbcType=VARCHAR},
+            </if>
+            <if test="f3date_end != null">
+                f_3date_end = #{f3date_end,jdbcType=CHAR},
+            </if>
+            <if test="f3time_end != null">
+                f_3time_end = #{f3time_end,jdbcType=CHAR},
+            </if>
+            <if test="fStatus != null">
+                f_status = #{fStatus,jdbcType=CHAR},
+            </if>
+        </set>
+        where f_thirdptls = #{fThirdptls,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectMaxIndexByordertrace" resultType="int">
+        select
+        max(f_index)
+        from t_order_pay
+        <where>
+            <if test="fOrdertrace != null">
+                f_ordertrace = #{fOrdertrace,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllOrderByDate" parameterType="map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order_pay
+        where f_date = #{fDate,jdbcType=CHAR}
+        and f_status = 1
+    </select>
+
+    <select id="selectAllOrderByDateAndThirdIdAndMerchantId"
+            parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order_pay
+        where f_date = #{fDate,jdbcType=CHAR}
+        and f_thirdid =
+        #{fThirdid,jdbcType=CHAR}
+        and f_merchantid =
+        #{fMerchantid,jdbcType=VARCHAR}
+        and f_status = 1
+    </select>
+
+    <select id="selectAllOrderNotConfirm" parameterType="map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order_pay
+        where concat(f_date,f_time) between #{startDatetime}
+        and #{endDatetime} and f_status = 0
+    </select>
+
+    <select id="selectFundOrder" parameterType="map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order_pay
+        where f_ordertrace = #{fOrdertrace,jdbcType=VARCHAR}
+        and f_index = 2
+    </select>
+</mapper>

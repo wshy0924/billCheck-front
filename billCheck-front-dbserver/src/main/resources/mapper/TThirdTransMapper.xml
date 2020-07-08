@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="thirdtrans">
+	<resultMap id="BaseResultMap" type="map">
+		<result column="f_merchantid" jdbcType="VARCHAR" property="f_merchantid" />
+		<result column="f_thirdid" jdbcType="CHAR" property="f_thirdid" />
+		<result column="f_transtime" jdbcType="DATE" property="f_transtime" />
+		<result column="f_thirdorderid" jdbcType="VARCHAR" property="f_thirdorderid" />
+		<result column="f_orderid" jdbcType="VARCHAR" property="f_orderid" />
+		<result column="f_transtype" jdbcType="INTEGER" property="f_transtype" />
+		<result column="f_pttrace" jdbcType="VARCHAR" property="f_pttrace" />
+		<result column="f_payerid" jdbcType="VARCHAR" property="f_payerid" />
+		<result column="f_paynum" jdbcType="VARCHAR" property="f_paynum" />
+		<result column="f_transamt" jdbcType="DECIMAL" property="f_transamt" />
+		<result column="f_realamt" jdbcType="DECIMAL" property="f_realamt" />
+		<result column="f_thirdredamt" jdbcType="DECIMAL" property="f_thirdredamt" />
+		<result column="f_thirdjfbamt" jdbcType="DECIMAL" property="f_thirdjfbamt" />
+		<result column="f_thirddisamt" jdbcType="DECIMAL" property="f_thirddisamt" />
+		<result column="f_disamt" jdbcType="DECIMAL" property="f_disamt" />
+		<result column="f_thirdqhxamt" jdbcType="DECIMAL" property="f_thirdqhxamt" />
+		<result column="f_redamt" jdbcType="DECIMAL" property="f_redamt" />
+		<result column="f_thirdkxfamt" jdbcType="DECIMAL" property="f_thirdkxfamt" />
+		<result column="f_brokerage" jdbcType="DECIMAL" property="f_brokerage" />
+		<result column="f_profit" jdbcType="DECIMAL" property="f_profit" />
+		<result column="f_regdate" jdbcType="CHAR" property="f_regdate" />
+		<result column="f_regtime" jdbcType="CHAR" property="f_regtime" />
+
+	</resultMap>
+	
+    <sql id="Base_Column_List">
+		f_merchantid,f_thirdid,f_thirdorderid,
+		f_orderid,f_transtype,f_pttrace,f_payerid,f_transamt,
+		f_realamt
+	</sql>
+
+	<insert id="insertThirdTransFromTmp" parameterType="map">
+		insert into
+		t_third_trans
+		select * from t_tmp_third_trans
+	</insert>
+
+	<insert id="insertThirdTransFromOut" parameterType="map">
+		insert into
+		t_third_trans
+		where
+		(f_merchantid, f_thirdid,f_transtime,f_thirdorderid,f_orderid,f_transtype,f_pttrace,f_payerid,f_paynum,
+		f_transamt,f_realamt,f_thirdredamt,f_thirdjfbamt,f_thirddisamt,f_disamt,f_thirdqhxamt,f_redamt,f_thirdkxfamt,
+		f_brokerage,f_profit,f_regdate,f_regtime)
+		values
+		(
+			#{f_merchantid,jdbcType=VARCHAR},
+			#{f_thirdid,jdbcType=VARCHAR},
+			#{f_transtime,jdbcType=VARCHAR},
+			#{f_thirdorderid,jdbcType=VARCHAR},
+			#{f_orderid,jdbcType=VARCHAR},
+			#{f_transtype,jdbcType=VARCHAR},
+			#{f_pttrace,jdbcType=VARCHAR},
+			#{f_payerid,jdbcType=VARCHAR},
+			#{f_paynum,jdbcType=VARCHAR},
+			#{f_transamt,jdbcType=VARCHAR},
+			#{f_realamt,jdbcType=VARCHAR},
+			#{f_thirdredamt,jdbcType=VARCHAR},
+			#{f_thirdjfbamt,jdbcType=VARCHAR},
+			#{f_thirddisamt,jdbcType=VARCHAR},
+			#{f_disamt,jdbcType=VARCHAR},
+			#{f_thirdqhxamt,jdbcType=VARCHAR},
+			#{f_redamt,jdbcType=VARCHAR},
+			#{f_thirdkxfamt,jdbcType=VARCHAR},
+			#{f_brokerage,jdbcType=VARCHAR},
+			#{f_profit,jdbcType=VARCHAR},
+			#{f_regdate,jdbcType=VARCHAR},
+			#{f_regtime,jdbcType=VARCHAR}
+
+		)
+	</insert>
+
+	<select id="selectDataByDateTime" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_third_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+	</select>
+
+	<delete id="deleteByDateAndThirdId" parameterType="map">
+		delete from t_third_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+		and
+		f_thirdid = #{fThirdid,jdbcType=CHAR}
+	</delete>
+	
+	<delete id="deleteByDate" parameterType="map">
+		delete from t_third_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+	</delete>
+</mapper>

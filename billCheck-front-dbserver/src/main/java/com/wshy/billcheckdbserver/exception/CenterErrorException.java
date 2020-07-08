@@ -1,4 +1,4 @@
-package com.wshy.billcheck.Exception;
+package com.wshy.billcheckdbserver.exception;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -26,6 +26,11 @@ public class CenterErrorException extends Exception{
      * 异常提示信息
      */
     private String msg;
+
+    public  CenterErrorException(String returnCode, String msg){
+        this.code = returnCode;
+        this.msg = msg;
+    }
 
     /**
      * 自定义异常，使用枚举类中的异常码和异常信息

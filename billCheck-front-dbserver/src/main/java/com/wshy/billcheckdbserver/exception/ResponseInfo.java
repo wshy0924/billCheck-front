@@ -1,4 +1,4 @@
-package com.wshy.billcheck.Exception;
+package com.wshy.billcheckdbserver.exception;
 
 import lombok.Data;
 

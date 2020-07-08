@@ -1,0 +1,11 @@
+{
+  "000001": {
+    "dbURL1":"http://139.196.227.77:27002/lay/getOutThirdData",
+    "dbURL2":"http://139.196.227.77:27002/lay/getOutHisData",
+    "md5Key":"IudaX2qWj33bjcL2IWgpUTa9LHFzDejU"
+  },
+  "000002": {
+    "dbURL":"",
+    "md5Key":""
+  }
+}

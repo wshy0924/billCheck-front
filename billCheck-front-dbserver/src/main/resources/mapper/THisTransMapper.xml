@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="histrans">
+	<resultMap id="BaseResultMap" type="map">
+		<result column="f_merchantid" jdbcType="VARCHAR"
+			property="f_merchantid" />
+		<result column="f_hisptls" jdbcType="VARCHAR"
+			property="f_hisptls" />
+		<result column="f_orderid" jdbcType="VARCHAR"
+			property="f_orderid" />
+		<result column="f_transtype" jdbcType="INTEGER"
+			property="f_transtype" />
+		<result column="f_paytype" jdbcType="CHAR" property="f_paytype" />
+		<result column="f_ordertype" jdbcType="CHAR"
+			property="f_ordertype" />
+		<result column="f_transtime" jdbcType="DATE"
+			property="f_transtime" />
+		<result column="f_transamt" jdbcType="DECIMAL"
+			property="f_transamt" />
+		<result column="f_regdate" jdbcType="CHAR" property="f_regdate" />
+		<result column="f_regtime" jdbcType="CHAR" property="f_regtime" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		f_merchantid,f_hisptls,f_orderid,f_transtype,
+		f_paytype,f_ordertype,f_transamt
+	</sql>
+
+	<insert id="insertHisTransFromTmp" parameterType="map">
+		insert into
+		t_his_trans
+		select * from t_tmp_his_trans
+	</insert>
+
+	<insert id="insertHisTransFromOut" parameterType="map">
+		insert into
+		t_his_trans
+		where
+		(f_merchantid,f_hisptls,f_orderid,f_transtype,f_paytype,f_ordertype,f_transtime,f_transamt,f_regdate,f_regtime)
+		values
+		(
+		#{f_merchantid,jdbcType=VARCHAR},
+		#{f_hisptls,jdbcType=VARCHAR},
+		#{f_orderid,jdbcType=VARCHAR},
+		#{f_transtype,jdbcType=VARCHAR},
+		#{f_paytype,jdbcType=VARCHAR},
+		#{f_ordertype,jdbcType=VARCHAR},
+		#{f_transtime,jdbcType=VARCHAR},
+		#{f_transamt,jdbcType=VARCHAR},
+		#{f_regdate,jdbcType=VARCHAR},
+		#{f_regtime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	
+	<select id="selectDataByDateTime" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_his_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+	</select>
+
+	<delete id="deleteByDateAndThirdId" parameterType="map">
+		delete from t_his_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+		and
+		f_paytype = #{fThirdid,jdbcType=CHAR}
+	</delete>
+	
+	<delete id="deleteByDate" parameterType="map">
+		delete from t_his_trans
+		where date_format(f_transtime, '%Y%m%d') =
+		#{fDate,jdbcType=CHAR}
+	</delete>
+</mapper>

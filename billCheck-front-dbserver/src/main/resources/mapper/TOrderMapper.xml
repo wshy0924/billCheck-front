@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="torder">
+    <resultMap id="BaseResultMap" type="map">
+        <id column="f_ordertrace" jdbcType="VARCHAR"
+            property="f_ordertrace" />
+        <result column="f_merchantid" jdbcType="VARCHAR"
+                property="f_merchantid" />
+        <result column="f_channel" jdbcType="CHAR" property="f_channel" />
+        <result column="f_operid" jdbcType="CHAR" property="f_operid" />
+        <result column="f_termid" jdbcType="CHAR" property="f_termid" />
+        <result column="f_termtrace" jdbcType="CHAR"
+                property="f_termtrace" />
+        <result column="f_depart" jdbcType="VARCHAR"
+                property="f_depart" />
+        <result column="f_regdate" jdbcType="CHAR" property="f_regdate" />
+        <result column="f_regtime" jdbcType="CHAR" property="f_regtime" />
+        <result column="f_ordertype" jdbcType="CHAR"
+                property="f_ordertype" />
+        <result column="f_thirdid" jdbcType="CHAR" property="f_thirdid" />
+        <result column="f_product" jdbcType="VARCHAR"
+                property="f_product" />
+        <result column="f_paytype" jdbcType="CHAR" property="f_paytype" />
+        <result column="f_tradetype" jdbcType="VARCHAR"
+                property="f_tradetype" />
+        <result column="f_ybflag" jdbcType="CHAR" property="f_ybflag" />
+        <result column="f_orderamt" jdbcType="INTEGER"
+                property="f_orderamt" />
+        <result column="f_settleamt" jdbcType="INTEGER"
+                property="f_settleamt" />
+        <result column="f_planamt" jdbcType="INTEGER"
+                property="f_planamt" />
+        <result column="f_status" jdbcType="CHAR" property="f_status" />
+        <result column="f_buyername" jdbcType="VARCHAR"
+                property="f_buyername" />
+        <result column="f_buyertel" jdbcType="VARCHAR"
+                property="f_buyertel" />
+        <result column="f_remark" jdbcType="VARCHAR"
+                property="f_remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		f_merchantid, f_thirdid, f_paytype
+	</sql>
+
+    <select id="selectByOrderTrace" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order
+        <where>
+            <if test="fOrdertrace != null">
+                f_ordertrace = #{fOrdertrace,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertOrder" parameterType="map">
+		insert into t_order
+		(f_merchantid, f_ordertrace, f_channel,
+		f_operid,f_termid,f_termtrace,f_depart,
+		f_regdate,f_regtime,f_ordertype,f_thirdid,
+		f_product,f_paytype,f_tradetype,f_ybflag,
+		f_orderamt,f_settleamt,f_planamt,f_status,f_buyername,
+		f_buyertel,f_remark)
+		values
+		(#{fMerchantid,jdbcType=VARCHAR},#{fOrdertrace,jdbcType=VARCHAR},
+		#{fChannel,jdbcType=CHAR},
+		#{fOperid,jdbcType=CHAR},
+		#{fTermid,jdbcType=CHAR}, #{fTermtrace,jdbcType=CHAR},
+		#{fDepart,jdbcType=VARCHAR}, #{fRegdate,jdbcType=CHAR},
+		#{fRegtime,jdbcType=CHAR},
+		#{fOrdertype,jdbcType=CHAR},
+		#{fThirdid,jdbcType=CHAR}, #{fProduct,jdbcType=VARCHAR},
+		#{fPaytype,jdbcType=CHAR}, #{fTradetype,jdbcType=VARCHAR},
+		#{fYbflag,jdbcType=CHAR},
+		#{fOrderamt,jdbcType=INTEGER},
+		#{fSettleamt,jdbcType=INTEGER}, #{fPlanamt,jdbcType=INTEGER}, #{fStatus,jdbcType=CHAR},
+		#{fBuyername,jdbcType=VARCHAR}, #{fBuyertel,jdbcType=VARCHAR}, #{fRemark,jdbcType=VARCHAR})
+	</insert>
+
+    <update id="updateOrderByOrderId" parameterType="map">
+        update t_order
+        <set>
+            <if test="fStatus != null">
+                f_status = #{fStatus,jdbcType=CHAR},
+            </if>
+        </set>
+        where f_ordertrace = #{fOrdertrace,jdbcType=VARCHAR}
+    </update>
+</mapper>
